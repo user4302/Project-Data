@@ -76,6 +76,20 @@ jobs:
           git clone https://oauth2:${{ secrets.GITLAB_TOKEN }}@gitlab.com/user4302_Projects/coding/vue-js/angeloedz.git portfolio-repo
           cd portfolio-repo
           
+          # Check available branches and switch to the correct one
+          git branch -a
+          if git rev-parse --verify origin/main >/dev/null 2>&1; then
+            git checkout main
+            BRANCH_NAME="main"
+          elif git rev-parse --verify origin/master >/dev/null 2>&1; then
+            git checkout master
+            BRANCH_NAME="master"
+          else
+            echo "No main or master branch found. Creating initial main branch."
+            git checkout -b main
+            BRANCH_NAME="main"
+          fi
+          
           # Create src/data directory if it doesn't exist
           mkdir -p src/data
           
@@ -84,4 +98,4 @@ jobs:
           git config user.email "actions@github.com"
           git add src/data/projects.json
           git commit -m "Auto-update projects data" || echo "No changes"
-          git push origin main  # This triggers Netlify build if linked
+          git push origin $BRANCH_NAME  # Use the correct branch name

@@ -1,4 +1,4 @@
-# Project-Data v1.0.3
+# Project-Data v1.0.4
 
 A project data management system that parses markdown project files and updates portfolio repositories automatically.
 
@@ -11,6 +11,7 @@ A project data management system that parses markdown project files and updates 
 - Secure authentication with Personal Access Token validation
 - Dual-platform support (GitHub + GitLab integration)
 - Proper Git user identity configuration for cross-platform commits
+- Intelligent branch detection for both main and master conventions
 
 ## Usage
 
