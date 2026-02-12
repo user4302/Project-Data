@@ -1,0 +1,21 @@
+- **Project Title** (clear and client-friendly)
+- **Type**: Professional / Personal / Open-Source
+- **Short Description** (2–4 sentences – what it does, problem it solved)
+- **My Role & Contribution** (what YOU specifically built or improved)
+- **Key Technologies/Skills** (list 4–8, e.g., React.js, PowerShell, Raspberry Pi)
+- **Impact/Results** (quantifiable where possible, e.g., "reduced setup time by 40%", "supported 1000+ users", "automated daily task")
+- **Visuals Needed** (list screenshots, diagrams, or links you have or need to create)
+- **Links** (GitHub repo, live demo, video walkthrough if any)
+
+**Tags:**
+- Yeoman
+- Scaffolding
+- Generator
+- Template
+- Project-Setup
+- Automation
+- Node.js
+- JavaScript
+- CLI
+- Development-Tools
+- Productivity

@@ -1,0 +1,51 @@
+name: Update README and Portfolio
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout projects-data
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with: { node-version: '20' }
+
+      - name: Install dependencies
+        run: npm install gray-matter  # If using frontmatter; add others as needed
+
+      - name: Generate README content
+        id: generate-readme
+        run: node generate.js readme > readme-section.md
+
+      - name: Update GitHub Profile README
+        run: |
+          git clone https://<your-username>:${{ secrets.PAT }}@github.com/<your-username>/<your-username>.git profile-repo
+          cd profile-repo
+          # Assuming your README has a marker like <!-- PROJECTS_START -->...<!-- PROJECTS_END -->
+          sed -i '/<!-- PROJECTS_START -->/,/<!-- PROJECTS_END -->/d' README.md
+          echo "<!-- PROJECTS_START -->" >> README.md
+          cat ../readme-section.md >> README.md
+          echo "<!-- PROJECTS_END -->" >> README.md
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add README.md
+          git commit -m "Auto-update projects in README" || echo "No changes"
+          git push origin main
+
+      - name: Generate Portfolio Data
+        run: node generate.js portfolio  # Outputs projects.json
+
+      - name: Update Portfolio Repo
+        if: success()  # Assuming portfolio repo is separate
+        run: |
+          git clone https://<your-username>:${{ secrets.PAT }}@github.com/<your-username>/portfolio-site.git portfolio-repo
+          cd portfolio-repo
+          cp ../projects.json data/projects.json  # Adjust path if your site uses data files
+          git add data/projects.json
+          git commit -m "Auto-update projects data" || echo "No changes"
+          git push origin main  # This triggers Netlify build if linked
