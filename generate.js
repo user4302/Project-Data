@@ -6,17 +6,27 @@ const projects = fs.readdirSync(projectsDir)
   .filter(file => file.endsWith('.md'))
   .map(file => {
     const content = fs.readFileSync(path.join(projectsDir, file), 'utf8');
-    // Simple regex parsing for sections (improve with a Markdown parser like remark if needed)
-    const title = content.match(/-\s\*\*Project Title\*\*\s(.*)/)?.[1] || 'Unknown';
-    const type = content.match(/-\s\*\*Type\*\*:\s(.*)/)?.[1] || '';
-    // Parse other sections similarly...
+    // Simple parsing by splitting lines (more reliable than regex)
+    const lines = content.split('\n');
+    let title = 'Unknown';
+    let type = '';
+
+    for (const line of lines) {
+      if (line.includes('**Project Title:**')) {
+        title = line.split('**Project Title:**')[1].trim() || 'Unknown';
+      }
+      if (line.includes('**Type:**')) {
+        type = line.split('**Type:**')[1].trim() || '';
+      }
+    }
+
     return { title, type /* add other fields */ };
   })
   .sort((a, b) => a.title.localeCompare(b.title));  // Sort alphabetically
 
 // Generate GitHub README section
 const readmeSection = projects.map(p => `
-### $$   {p.title} (   $${p.type})
+### ${p.title} (${p.type})
 [GitLab Repo](link-to-gitlab) | [Live Site](link-to-site)
 <!-- Add parsed description, etc. -->
 `).join('\n');

@@ -24,7 +24,7 @@ jobs:
 
       - name: Update GitHub Profile README
         run: |
-          git clone https://<your-username>:${{ secrets.PAT }}@github.com/<your-username>/<your-username>.git profile-repo
+          git clone https://user4302:${{ secrets.PAT }}@github.com/user4302/user4302.git profile-repo
           cd profile-repo
           # Assuming your README has a marker like <!-- PROJECTS_START -->...<!-- PROJECTS_END -->
           sed -i '/<!-- PROJECTS_START -->/,/<!-- PROJECTS_END -->/d' README.md
@@ -43,7 +43,7 @@ jobs:
       - name: Update Portfolio Repo
         if: success()  # Assuming portfolio repo is separate
         run: |
-          git clone https://<your-username>:${{ secrets.PAT }}@github.com/<your-username>/portfolio-site.git portfolio-repo
+          git clone https://user4302:${{ secrets.PAT }}@github.com/user4302/portfolio-site.git portfolio-repo
           cd portfolio-repo
           cp ../projects.json data/projects.json  # Adjust path if your site uses data files
           git add data/projects.json
