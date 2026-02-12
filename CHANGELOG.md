@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2025-06-17
+
+### Fixed
+- Added proper GitHub Actions permissions for cross-repository operations
+- Added PAT validation with clear error messages for missing secrets
+- Enhanced authentication handling for profile and portfolio repository updates
+- Created comprehensive setup documentation for PAT configuration
+
 ## [1.0.0] - 2025-06-17
 
 ### Added

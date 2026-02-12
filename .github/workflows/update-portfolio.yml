@@ -4,12 +4,19 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
   update:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout projects-data
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -24,6 +31,10 @@ jobs:
 
       - name: Update GitHub Profile README
         run: |
+          if [ -z "${{ secrets.PAT }}" ]; then
+            echo "Error: PAT secret is not set. Please create a Personal Access Token with 'repo' permissions and add it as PAT secret."
+            exit 1
+          fi
           git clone https://user4302:${{ secrets.PAT }}@github.com/user4302/user4302.git profile-repo
           cd profile-repo
           # Assuming your README has a marker like <!-- PROJECTS_START -->...<!-- PROJECTS_END -->
@@ -43,6 +54,10 @@ jobs:
       - name: Update Portfolio Repo
         if: success()  # Assuming portfolio repo is separate
         run: |
+          if [ -z "${{ secrets.PAT }}" ]; then
+            echo "Error: PAT secret is not set. Please create a Personal Access Token with 'repo' permissions and add it as PAT secret."
+            exit 1
+          fi
           git clone https://user4302:${{ secrets.PAT }}@github.com/user4302/portfolio-site.git portfolio-repo
           cd portfolio-repo
           cp ../projects.json data/projects.json  # Adjust path if your site uses data files
