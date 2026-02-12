@@ -35,6 +35,15 @@ jobs:
             echo "Error: PAT secret is not set. Please create a Personal Access Token with 'repo' permissions and add it as PAT secret."
             exit 1
           fi
+          
+          # Check if profile repository exists
+          if ! git ls-remote --exit-code https://user4302:${{ secrets.PAT }}@github.com/user4302/user4302.git > /dev/null 2>&1; then
+            echo "Profile README repository (user4302/user4302.git) not found. Skipping profile README update."
+            echo "To enable profile updates, create the repository at: https://github.com/user4302/user4302"
+            echo "Add a README.md with markers: <!-- PROJECTS_START --> and <!-- PROJECTS_END -->"
+            exit 0
+          fi
+          
           git clone https://user4302:${{ secrets.PAT }}@github.com/user4302/user4302.git profile-repo
           cd profile-repo
           # Assuming your README has a marker like <!-- PROJECTS_START -->...<!-- PROJECTS_END -->
@@ -54,13 +63,23 @@ jobs:
       - name: Update Portfolio Repo
         if: success()  # Assuming portfolio repo is separate
         run: |
-          if [ -z "${{ secrets.PAT }}" ]; then
-            echo "Error: PAT secret is not set. Please create a Personal Access Token with 'repo' permissions and add it as PAT secret."
-            exit 1
+          if [ -z "${{ secrets.GITLAB_TOKEN }}" ]; then
+            echo "GitLab token not set. Skipping portfolio update."
+            echo "To enable GitLab portfolio updates:"
+            echo "1. Create a GitLab Personal Access Token with 'api' scope"
+            echo "2. Add it as GITLAB_TOKEN secret to this repository"
+            echo "3. Ensure the workflow has the correct GitLab repository URL"
+            exit 0
           fi
-          git clone https://user4302:${{ secrets.PAT }}@github.com/user4302/portfolio-site.git portfolio-repo
+          
+          # Update GitLab repository (using GitLab token)
+          git clone https://oauth2:${{ secrets.GITLAB_TOKEN }}@gitlab.com/user4302_Projects/coding/vue-js/angeloedz.git portfolio-repo
           cd portfolio-repo
-          cp ../projects.json data/projects.json  # Adjust path if your site uses data files
-          git add data/projects.json
+          
+          # Create src/data directory if it doesn't exist
+          mkdir -p src/data
+          
+          cp ../projects.json src/data/projects.json  # Match your actual file structure
+          git add src/data/projects.json
           git commit -m "Auto-update projects data" || echo "No changes"
           git push origin main  # This triggers Netlify build if linked

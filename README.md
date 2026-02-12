@@ -1,4 +1,4 @@
-# Project-Data v1.0.1
+# Project-Data v1.0.2
 
 A project data management system that parses markdown project files and updates portfolio repositories automatically.
 
@@ -9,6 +9,7 @@ A project data management system that parses markdown project files and updates 
 - Automated GitHub workflow for portfolio updates
 - Supports multiple project types and categorization
 - Secure authentication with Personal Access Token validation
+- Dual-platform support (GitHub + GitLab integration)
 
 ## Usage
 
@@ -21,4 +22,4 @@ The workflow will automatically update your portfolio repositories when changes 
 
 ## Setup
 
-See [SETUP.md](SETUP.md) for detailed instructions on configuring GitHub Actions authentication.
+See [SETUP.md](SETUP.md) for detailed instructions on configuring GitHub Actions authentication for both GitHub and GitLab repositories.

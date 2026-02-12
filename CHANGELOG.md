@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2025-06-17
+
+### Fixed
+- Added GitLab integration support with proper OAuth2 authentication
+- Fixed portfolio repository URL from GitHub to actual GitLab repository
+- Corrected file path structure from `data/projects.json` to `src/data/projects.json`
+- Enhanced SETUP.md with comprehensive dual-platform documentation
+- Added separate token management for GitHub and GitLab repositories
+
 ## [1.0.1] - 2025-06-17
 
 ### Fixed
