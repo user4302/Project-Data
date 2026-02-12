@@ -80,6 +80,8 @@ jobs:
           mkdir -p src/data
           
           cp ../projects.json src/data/projects.json  # Match your actual file structure
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
           git add src/data/projects.json
           git commit -m "Auto-update projects data" || echo "No changes"
           git push origin main  # This triggers Netlify build if linked
